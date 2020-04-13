@@ -7,8 +7,8 @@ node {
     //    url: 'https://github.com/g0t4/solitaire-systemjs-course'
 
     // pull dependencies from npm
-    // on windows use: bat 'npm install'
-    sh 'npm install'
+   bat 'npm install'
+
 
     // stash code & dependencies to expedite subsequent testing
     // and ensure same code & dependencies are used throughout the pipeline
@@ -18,8 +18,8 @@ node {
           includes: '**'
     
     // test with PhantomJS for "fast" "generic" results
-    // on windows use: bat 'npm run test-single-run -- --browsers PhantomJS'
-    sh 'npm run test-single-run -- --browsers PhantomJS'
+    bat 'npm run test-single-run -- --browsers PhantomJS'
+
     
     // archive karma test results (karma is configured to export junit xml files)
     step([$class: 'JUnitResultArchiver', 
