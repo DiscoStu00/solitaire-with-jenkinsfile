@@ -28,17 +28,17 @@ node {
 }
 
 // demoing a second agent
-node('mac') {
-    // on windows use: bat 'dir'
-    sh 'ls'
+node() {
+    bat 'dir'
 
-    // on windows use: bat 'del /S /Q *'
-    sh 'rm -rf *'
+
+    bat 'del /S /Q *'
+
 
     unstash 'everything'
 
-    // on windows use: bat 'dir'
-    sh 'ls'
+    bat 'dir'
+
 }
 
 //parallel integration testing
@@ -47,28 +47,23 @@ parallel chrome: {
     runTests("Chrome")
 }, firefox: {
     runTests("Firefox")
-}, safari: {
-    runTests("Safari")
 }
 
 def runTests(browser) {
     node {
-        // on windows use: bat 'del /S /Q *'
-        sh 'rm -rf *'
+       bat 'del /S /Q *'
+
 
         unstash 'everything'
 
-        // on windows use: bat "npm run test-single-run -- --browsers ${browser}"
-        sh "npm run test-single-run -- --browsers ${browser}"
+        bat "npm run test-single-run -- --browsers ${browser}"
 
         step([$class: 'JUnitResultArchiver', 
               testResults: 'test-results/**/test-results.xml'])
     }
 }
 
-node {
-    notify("Deploy to staging?")
-}
+
 
 input 'Deploy to staging?'
 
